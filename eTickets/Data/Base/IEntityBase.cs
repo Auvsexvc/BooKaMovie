@@ -1,4 +1,4 @@
-﻿namespace eTickets.Data.Base
+﻿namespace eCommerceApp.Data.Base
 {
     public interface IEntityBase
     {

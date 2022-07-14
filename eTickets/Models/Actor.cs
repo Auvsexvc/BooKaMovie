@@ -1,7 +1,7 @@
-﻿using eTickets.Data.Base;
+﻿using eCommerceApp.Data.Base;
 using System.ComponentModel.DataAnnotations;
 
-namespace eTickets.Models
+namespace eCommerceApp.Models
 {
     public class Actor : IEntityBase
     {

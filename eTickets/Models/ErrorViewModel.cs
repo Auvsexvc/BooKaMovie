@@ -1,4 +1,4 @@
-namespace eTickets.Models
+namespace eCommerceApp.Models
 {
     public class ErrorViewModel
     {

@@ -1,7 +1,7 @@
-﻿using eTickets.Data.Base;
-using eTickets.Models;
+﻿using eCommerceApp.Data.Base;
+using eCommerceApp.Models;
 
-namespace eTickets.Interfaces
+namespace eCommerceApp.Interfaces
 {
     public interface ICinemasService : IEntityBaseRepository<Cinema>
     {

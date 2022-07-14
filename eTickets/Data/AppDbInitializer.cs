@@ -1,7 +1,7 @@
-﻿using eTickets.Data.Enums;
-using eTickets.Models;
+﻿using eCommerceApp.Data.Enums;
+using eCommerceApp.Models;
 
-namespace eTickets.Data
+namespace eCommerceApp.Data
 {
     public static class AppDbInitializer
     {

@@ -1,6 +1,6 @@
-using eTickets.Data;
-using eTickets.Interfaces;
-using eTickets.Services;
+using eCommerceApp.Data;
+using eCommerceApp.Interfaces;
+using eCommerceApp.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

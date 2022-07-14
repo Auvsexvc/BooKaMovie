@@ -1,7 +1,7 @@
-﻿using eTickets.Models;
+﻿using eCommerceApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace eTickets.Data
+namespace eCommerceApp.Data
 {
     public class AppDbContext : DbContext
     {

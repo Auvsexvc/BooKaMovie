@@ -1,9 +1,9 @@
-﻿using eTickets.Data;
-using eTickets.Data.Base;
-using eTickets.Interfaces;
-using eTickets.Models;
+﻿using eCommerceApp.Data;
+using eCommerceApp.Data.Base;
+using eCommerceApp.Interfaces;
+using eCommerceApp.Models;
 
-namespace eTickets.Services
+namespace eCommerceApp.Services
 {
     public class CinemasService : EntityBaseRepository<Cinema>, ICinemasService
     {

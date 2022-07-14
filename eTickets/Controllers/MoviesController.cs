@@ -1,10 +1,7 @@
-﻿using eTickets.Data;
-using eTickets.Interfaces;
+﻿using eCommerceApp.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 
-namespace eTickets.Controllers
+namespace eCommerceApp.Controllers
 {
     public class MoviesController : Controller
     {
@@ -17,7 +14,7 @@ namespace eTickets.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var data = await _moviesService.GetAllAsync(m=>m.Cinema);
+            var data = await _moviesService.GetAllAsync(m => m.Cinema);
 
             return View(data);
         }

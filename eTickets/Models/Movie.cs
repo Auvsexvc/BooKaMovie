@@ -1,10 +1,10 @@
-﻿using eTickets.Data.Base;
-using eTickets.Data.Enums;
+﻿using eCommerceApp.Data.Base;
+using eCommerceApp.Data.Enums;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace eTickets.Models
+namespace eCommerceApp.Models
 {
     public class Movie : IEntityBase
     {
@@ -16,10 +16,13 @@ namespace eTickets.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public double Price { get; set; }
+
         [DisplayName("Cover")]
         public string ImageURL { get; set; } = string.Empty;
+
         [DisplayName("Category")]
         public MovieCategory MovieCategory { get; set; }
+
         public List<ActorMovie> ActorsMovies { get; set; } = null!;
         public int CinemaId { get; set; }
 

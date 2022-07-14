@@ -1,8 +1,8 @@
-﻿using eTickets.Interfaces;
-using eTickets.Models;
+﻿using eCommerceApp.Interfaces;
+using eCommerceApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace eTickets.Controllers
+namespace eCommerceApp.Controllers
 {
     public class ProducersController : Controller
     {

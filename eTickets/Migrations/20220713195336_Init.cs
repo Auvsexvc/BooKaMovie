@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -19,10 +18,7 @@ namespace eTickets.Migrations
                     ProfilePictureURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Actors", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Actors", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "Cinemas",
@@ -34,10 +30,7 @@ namespace eTickets.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Logo = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cinemas", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Cinemas", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "Producers",
@@ -49,10 +42,7 @@ namespace eTickets.Migrations
                     ProfilePictureURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Producers", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Producers", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "Movies",
