@@ -14,19 +14,9 @@ namespace eCommerceApp.Controllers
             _moviesService = moviesService;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var data = await _moviesService.GetAllAsync(m => m.Cinema);
+        public async Task<IActionResult> Index() => View(await _moviesService.GetAllAsync(m => m.Cinema));
 
-            return View(data);
-        }
-
-        public async Task<IActionResult> Details(int id)
-        {
-            var movieDetail = await _moviesService.GetMovieByIdAsync(id);
-
-            return View(movieDetail);
-        }
+        public async Task<IActionResult> Details(int id) => View(await _moviesService.GetMovieByIdAsync(id));
 
         public async Task<IActionResult> Create()
         {

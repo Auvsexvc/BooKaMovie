@@ -13,17 +13,9 @@ namespace eCommerceApp.Controllers
             _producersService = producersService;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var data = await _producersService.GetAllAsync();
+        public async Task<IActionResult> Index() => View(await _producersService.GetAllAsync());
 
-            return View(data);
-        }
-
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         [HttpPost]
         public async Task<IActionResult> Create([Bind("FullName,ProfilePictureURL,Bio")] Producer producer)
@@ -37,30 +29,9 @@ namespace eCommerceApp.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Details(int id)
-        {
-            var producerDetails = await _producersService.GetByIdAsync(id);
+        public async Task<IActionResult> Details(int id) => await GetProducerAsync(id);
 
-            if (producerDetails == null)
-            {
-                return View("NotFound");
-            }
-
-            return View(producerDetails);
-        }
-
-        public async Task<IActionResult> Edit(int id)
-        {
-            var producerDetails = await _producersService.GetByIdAsync(id);
-
-            if (producerDetails == null)
-            {
-                return View("NotFound");
-            }
-
-            return View(producerDetails);
-        }
+        public async Task<IActionResult> Edit(int id) => await GetProducerAsync(id);
 
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Producer producer)
@@ -79,17 +50,7 @@ namespace eCommerceApp.Controllers
             return View(producer);
         }
 
-        public async Task<IActionResult> Delete(int id)
-        {
-            var producerDetails = await _producersService.GetByIdAsync(id);
-
-            if (producerDetails == null)
-            {
-                return View("NotFound");
-            }
-
-            return View(producerDetails);
-        }
+        public async Task<IActionResult> Delete(int id) => await GetProducerAsync(id);
 
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -103,6 +64,18 @@ namespace eCommerceApp.Controllers
             await _producersService.DeleteAsync(id);
 
             return RedirectToAction("Index");
+        }
+
+        private async Task<IActionResult> GetProducerAsync(int id)
+        {
+            var producerDetails = await _producersService.GetByIdAsync(id);
+
+            if (producerDetails == null)
+            {
+                return View("NotFound");
+            }
+
+            return View(producerDetails);
         }
     }
 }

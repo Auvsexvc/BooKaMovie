@@ -10,6 +10,9 @@ namespace eCommerceApp.Data
         public DbSet<Cinema> Cinemas => Set<Cinema>();
         public DbSet<Producer> Producers => Set<Producer>();
         public DbSet<ActorMovie> ActorsMovies => Set<ActorMovie>();
+        public DbSet<Order> Orders => Set<Order>();
+        public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+        public DbSet<ShoppingCartItem> ShoppingCartItems => Set<ShoppingCartItem>();
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {

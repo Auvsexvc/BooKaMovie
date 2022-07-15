@@ -13,17 +13,9 @@ namespace eCommerceApp.Controllers
             _cinemasService = cinemasService;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var data = await _cinemasService.GetAllAsync();
+        public async Task<IActionResult> Index() => View(await _cinemasService.GetAllAsync());
 
-            return View(data);
-        }
-
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         [HttpPost]
         public async Task<IActionResult> Create([Bind("Name,Logo,Description")] Cinema cinema)
@@ -37,30 +29,9 @@ namespace eCommerceApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Details(int id)
-        {
-            var cinemaDetails = await _cinemasService.GetByIdAsync(id);
+        public async Task<IActionResult> Details(int id) => await GetCinemaAsync(id);
 
-            if (cinemaDetails == null)
-            {
-                return View("NotFound");
-            }
-
-            return View(cinemaDetails);
-        }
-
-        public async Task<IActionResult> Edit(int id)
-        {
-            var cinemaDetails = await _cinemasService.GetByIdAsync(id);
-
-            if (cinemaDetails == null)
-            {
-                return View("NotFound");
-            }
-
-            return View(cinemaDetails);
-        }
+        public async Task<IActionResult> Edit(int id) => await GetCinemaAsync(id);
 
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Cinema cinema)
@@ -79,17 +50,7 @@ namespace eCommerceApp.Controllers
             return View(cinema);
         }
 
-        public async Task<IActionResult> Delete(int id)
-        {
-            var cinemaDetails = await _cinemasService.GetByIdAsync(id);
-
-            if (cinemaDetails == null)
-            {
-                return View("NotFound");
-            }
-
-            return View(cinemaDetails);
-        }
+        public async Task<IActionResult> Delete(int id) => await GetCinemaAsync(id);
 
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -103,6 +64,18 @@ namespace eCommerceApp.Controllers
             await _cinemasService.DeleteAsync(id);
 
             return RedirectToAction("Index");
+        }
+
+        private async Task<IActionResult> GetCinemaAsync(int id)
+        {
+            var cinemaDetails = await _cinemasService.GetByIdAsync(id);
+
+            if (cinemaDetails == null)
+            {
+                return View("NotFound");
+            }
+
+            return View(cinemaDetails);
         }
     }
 }

@@ -13,16 +13,9 @@ namespace eCommerceApp.Controllers
             _actorsService = actorsService;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var data = await _actorsService.GetAllAsync();
-            return View(data);
-        }
+        public async Task<IActionResult> Index() => View(await _actorsService.GetAllAsync());
 
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         [HttpPost]
         public async Task<IActionResult> Create([Bind("FullName,ProfilePictureURL,Bio")] Actor actor)
@@ -36,30 +29,9 @@ namespace eCommerceApp.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Details(int id)
-        {
-            var actorDetails = await _actorsService.GetByIdAsync(id);
+        public async Task<IActionResult> Details(int id) => await GetDetailAsync(id);
 
-            if (actorDetails == null)
-            {
-                return View("NotFound");
-            }
-
-            return View(actorDetails);
-        }
-
-        public async Task<IActionResult> Edit(int id)
-        {
-            var actorDetails = await _actorsService.GetByIdAsync(id);
-
-            if (actorDetails == null)
-            {
-                return View("NotFound");
-            }
-
-            return View(actorDetails);
-        }
+        public async Task<IActionResult> Edit(int id) => await GetDetailAsync(id);
 
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Actor actor)
@@ -78,17 +50,7 @@ namespace eCommerceApp.Controllers
             return View(actor);
         }
 
-        public async Task<IActionResult> Delete(int id)
-        {
-            var actorDetails = await _actorsService.GetByIdAsync(id);
-
-            if (actorDetails == null)
-            {
-                return View("NotFound");
-            }
-
-            return View(actorDetails);
-        }
+        public async Task<IActionResult> Delete(int id) => await GetDetailAsync(id);
 
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -102,6 +64,17 @@ namespace eCommerceApp.Controllers
             await _actorsService.DeleteAsync(id);
 
             return RedirectToAction("Index");
+        }
+
+        private async Task<IActionResult> GetDetailAsync(int id)
+        {
+            var actorDetails = await _actorsService.GetByIdAsync(id);
+
+            if (actorDetails == null)
+            {
+                return View("NotFound");
+            }
+            return View(actorDetails);
         }
     }
 }
