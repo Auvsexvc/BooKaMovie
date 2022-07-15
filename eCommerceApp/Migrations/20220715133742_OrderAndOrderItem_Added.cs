@@ -44,10 +44,7 @@ namespace eCommerceApp.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Orders", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "OrderItemss",
