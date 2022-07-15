@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace eTickets.Migrations
+namespace eCommerceApp.Migrations
 {
     public partial class Init : Migration
     {

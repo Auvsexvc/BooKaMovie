@@ -11,5 +11,7 @@ namespace eCommerceApp.Interfaces
         Task<NewMovieDropdownsVM> GetNewMovieDropdownsVM();
 
         Task AddNewMovieAsync(NewMovieVM newMovie);
+
+        Task UpdateMovieAsync(NewMovieVM movieVM);
     }
 }

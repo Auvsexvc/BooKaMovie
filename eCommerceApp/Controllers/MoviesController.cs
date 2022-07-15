@@ -56,5 +56,59 @@ namespace eCommerceApp.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var movieDetails = await _moviesService.GetMovieByIdAsync(id);
+
+            if (movieDetails == null)
+            {
+                return View("NotFound");
+            }
+
+            var movieVM = new NewMovieVM()
+            {
+                Id = movieDetails.Id,
+                Name = movieDetails.Name,
+                Description = movieDetails.Description,
+                Price = movieDetails.Price,
+                ImageURL = movieDetails.ImageURL,
+                MovieCategory = movieDetails.MovieCategory,
+                CinemaId = movieDetails.CinemaId,
+                ProducerId = movieDetails.ProducerId,
+                ActorIds = movieDetails.ActorsMovies.ConvertAll(am => am.ActorId)
+            };
+
+            var dropdowns = await _moviesService.GetNewMovieDropdownsVM();
+
+            ViewBag.Cinemas = new SelectList(dropdowns.Cinemas, "Id", "Name");
+            ViewBag.Producers = new SelectList(dropdowns.Producers, "Id", "FullName");
+            ViewBag.Actors = new SelectList(dropdowns.Actors, "Id", "FullName");
+
+            return View(movieVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, NewMovieVM movieVM)
+        {
+            if (id != movieVM.Id)
+            {
+                return View("NotFound");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var dropdowns = await _moviesService.GetNewMovieDropdownsVM();
+
+                ViewBag.Cinemas = new SelectList(dropdowns.Cinemas, "Id", "Name");
+                ViewBag.Producers = new SelectList(dropdowns.Producers, "Id", "FullName");
+                ViewBag.Actors = new SelectList(dropdowns.Actors, "Id", "FullName");
+
+                return View(movieVM);
+            }
+            await _moviesService.UpdateMovieAsync(movieVM);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

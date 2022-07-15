@@ -66,5 +66,37 @@ namespace eCommerceApp.Services
                 Cinemas = await _dbContext.Cinemas.OrderBy(a => a.Name).ToListAsync()
             };
         }
+
+        public async Task UpdateMovieAsync(NewMovieVM movieVM)
+        {
+            var movie = await _dbContext.Movies.FirstAsync(m => m.Id == movieVM.Id);
+
+            if (movie != null)
+            {
+                movie.Name = movieVM.Name;
+                movie.Description = movieVM.Description;
+                movie.Price = movieVM.Price;
+                movie.StartDate = movieVM.StartDate;
+                movie.EndDate = movieVM.EndDate;
+                movie.MovieCategory = movieVM.MovieCategory;
+                movie.CinemaId = movieVM.CinemaId;
+                movie.ProducerId = movieVM.ProducerId;
+                movie.ImageURL = movieVM.ImageURL;
+
+                var movieActors = _dbContext.ActorsMovies.Where(am => am.MovieId == movieVM.Id).ToList();
+                _dbContext.ActorsMovies.RemoveRange(movieActors);
+
+                foreach (var actorId in movieVM.ActorIds)
+                {
+                    ActorMovie newActorMovie = new()
+                    {
+                        MovieId = movieVM.Id,
+                        ActorId = actorId
+                    };
+                    await _dbContext.AddAsync(newActorMovie);
+                }
+                await _dbContext.SaveChangesAsync();
+            }
+        }
     }
 }

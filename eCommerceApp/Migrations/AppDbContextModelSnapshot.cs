@@ -8,7 +8,7 @@ using eCommerceApp.Data;
 
 #nullable disable
 
-namespace eTickets.Migrations
+namespace eCommerceApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace eTickets.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("eTickets.Models.Actor", b =>
+            modelBuilder.Entity("eCommerceApp.Models.Actor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -47,7 +47,7 @@ namespace eTickets.Migrations
                     b.ToTable("Actors");
                 });
 
-            modelBuilder.Entity("eTickets.Models.ActorMovie", b =>
+            modelBuilder.Entity("eCommerceApp.Models.ActorMovie", b =>
                 {
                     b.Property<int>("ActorId")
                         .HasColumnType("int");
@@ -62,7 +62,7 @@ namespace eTickets.Migrations
                     b.ToTable("ActorsMovies");
                 });
 
-            modelBuilder.Entity("eTickets.Models.Cinema", b =>
+            modelBuilder.Entity("eCommerceApp.Models.Cinema", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,7 +87,7 @@ namespace eTickets.Migrations
                     b.ToTable("Cinemas");
                 });
 
-            modelBuilder.Entity("eTickets.Models.Movie", b =>
+            modelBuilder.Entity("eCommerceApp.Models.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -134,7 +134,7 @@ namespace eTickets.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("eTickets.Models.Producer", b =>
+            modelBuilder.Entity("eCommerceApp.Models.Producer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -159,15 +159,15 @@ namespace eTickets.Migrations
                     b.ToTable("Producers");
                 });
 
-            modelBuilder.Entity("eTickets.Models.ActorMovie", b =>
+            modelBuilder.Entity("eCommerceApp.Models.ActorMovie", b =>
                 {
-                    b.HasOne("eTickets.Models.Actor", "Actor")
+                    b.HasOne("eCommerceApp.Models.Actor", "Actor")
                         .WithMany("ActorsMovies")
                         .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eTickets.Models.Movie", "Movie")
+                    b.HasOne("eCommerceApp.Models.Movie", "Movie")
                         .WithMany("ActorsMovies")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -178,15 +178,15 @@ namespace eTickets.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("eTickets.Models.Movie", b =>
+            modelBuilder.Entity("eCommerceApp.Models.Movie", b =>
                 {
-                    b.HasOne("eTickets.Models.Cinema", "Cinema")
+                    b.HasOne("eCommerceApp.Models.Cinema", "Cinema")
                         .WithMany("Movies")
                         .HasForeignKey("CinemaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eTickets.Models.Producer", "Producer")
+                    b.HasOne("eCommerceApp.Models.Producer", "Producer")
                         .WithMany("Movies")
                         .HasForeignKey("ProducerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -197,22 +197,22 @@ namespace eTickets.Migrations
                     b.Navigation("Producer");
                 });
 
-            modelBuilder.Entity("eTickets.Models.Actor", b =>
+            modelBuilder.Entity("eCommerceApp.Models.Actor", b =>
                 {
                     b.Navigation("ActorsMovies");
                 });
 
-            modelBuilder.Entity("eTickets.Models.Cinema", b =>
+            modelBuilder.Entity("eCommerceApp.Models.Cinema", b =>
                 {
                     b.Navigation("Movies");
                 });
 
-            modelBuilder.Entity("eTickets.Models.Movie", b =>
+            modelBuilder.Entity("eCommerceApp.Models.Movie", b =>
                 {
                     b.Navigation("ActorsMovies");
                 });
 
-            modelBuilder.Entity("eTickets.Models.Producer", b =>
+            modelBuilder.Entity("eCommerceApp.Models.Producer", b =>
                 {
                     b.Navigation("Movies");
                 });
