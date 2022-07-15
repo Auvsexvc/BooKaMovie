@@ -10,6 +10,6 @@ namespace eCommerceApp.Models
         public string Email { get; set; } = string.Empty;
         public string UserId { get; set; } = string.Empty;
 
-        public List<OrderItem>? Items { get; set; }
+        public List<OrderItem> Items { get; set; } = null!;
     }
 }

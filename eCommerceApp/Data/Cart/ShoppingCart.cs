@@ -1,5 +1,4 @@
-﻿using eCommerceApp.Interfaces;
-using eCommerceApp.Models;
+﻿using eCommerceApp.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceApp.Data.Cart
@@ -18,16 +17,16 @@ namespace eCommerceApp.Data.Cart
 
         public static ShoppingCart GetShoppingCart(IServiceProvider services)
         {
-            ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
-            AppDbContext dbContext = services.GetService<AppDbContext>();
+            ISession session = services.GetRequiredService<IHttpContextAccessor>().HttpContext!.Session;
+            AppDbContext dbContext = services.GetService<AppDbContext>()!;
 
             string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
             session.SetString("CartId", cartId);
 
-            return new ShoppingCart(dbContext) {  ShoppingCartId = cartId };
+            return new ShoppingCart(dbContext) { ShoppingCartId = cartId };
         }
 
-        public async Task AddItemToCart(Movie movie)
+        public async Task AddItemToCartAsync(Movie movie)
         {
             var shoppingCartItem = GetShoppingCartItems().Find(c => c.Movie == movie);
 
@@ -49,7 +48,7 @@ namespace eCommerceApp.Data.Cart
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task RemoveItemFromCart(Movie movie)
+        public async Task RemoveItemFromCartAsync(Movie movie)
         {
             var shoppingCartItem = GetShoppingCartItems().Find(c => c.Movie == movie);
 
@@ -65,6 +64,13 @@ namespace eCommerceApp.Data.Cart
                 }
             }
 
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task ClearShoppingCartAsync()
+        {
+            var items = await _dbContext.ShoppingCartItems.Where(c => c.ShoppingCartId == ShoppingCartId).ToListAsync();
+            _dbContext.ShoppingCartItems.RemoveRange(items);
             await _dbContext.SaveChangesAsync();
         }
 

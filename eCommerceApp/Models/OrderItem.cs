@@ -17,7 +17,7 @@ namespace eCommerceApp.Models
 
         public int OrderId { get; set; }
 
-        [ForeignKey("MovieId")]
+        [ForeignKey("OrderId")]
         public virtual Order Order { get; set; } = null!;
     }
 }

@@ -9,11 +9,21 @@ namespace eCommerceApp.Controllers
     {
         private readonly IMoviesService _moviesService;
         private readonly ShoppingCart _shoppingCart;
+        private readonly IOrdersService _ordersService;
 
-        public OrdersController(IMoviesService moviesService, ShoppingCart shoppingCart)
+        public OrdersController(IMoviesService moviesService, ShoppingCart shoppingCart, IOrdersService ordersService)
         {
             _moviesService = moviesService;
             _shoppingCart = shoppingCart;
+            _ordersService = ordersService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            string userId = "";
+            var orders = await _ordersService.GetOrdersByUserIdAsync(userId);
+
+            return View(orders);
         }
 
         public IActionResult ShoppingCart()
@@ -34,9 +44,9 @@ namespace eCommerceApp.Controllers
         {
             var item = await _moviesService.GetMovieByIdAsync(id);
 
-            if(item != null)
+            if (item != null)
             {
-                await _shoppingCart.AddItemToCart(item);
+                await _shoppingCart.AddItemToCartAsync(item);
             }
 
             return RedirectToAction(nameof(ShoppingCart));
@@ -48,10 +58,23 @@ namespace eCommerceApp.Controllers
 
             if (item != null)
             {
-                await _shoppingCart.RemoveItemFromCart(item);
+                await _shoppingCart.RemoveItemFromCartAsync(item);
             }
 
             return RedirectToAction(nameof(ShoppingCart));
+        }
+
+        public async Task<IActionResult> CompleteOrderAsync()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            string userId = "";
+            string userEmailAddress = "";
+
+            await _ordersService.StoreOrderAsync(items, userId, userEmailAddress);
+
+            await _shoppingCart.ClearShoppingCartAsync();
+
+            return View("OrderCompleted");
         }
     }
 }
