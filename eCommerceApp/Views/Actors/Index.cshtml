@@ -20,7 +20,8 @@
                 {
                     <tr>
                         <td class="align-middle">
-                            <img class="rounded-circle avatar" src="@item.ProfilePictureURL" alt="@item.FullName"/></td>
+                            <img class="rounded-circle avatar" src="@item.ProfilePictureURL" alt="@item.FullName" />
+                        </td>
                         <td class="align-middle">
                             @item.FullName
                         </td>
@@ -39,6 +40,4 @@
     </div>
 </div>
 
-<div style="position:fixed; right:25px; bottom:25px;" class="text-white">
-    <a asp-controller="Actors" asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add new</a>
-</div>
+@await Html.PartialAsync("_AddButton", "Actors")
