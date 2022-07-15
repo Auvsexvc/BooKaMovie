@@ -9,14 +9,23 @@ namespace eCommerceApp.Data.Cart
         private readonly AppDbContext _dbContext;
 
         public string ShoppingCartId { get; set; } = string.Empty;
-        public List<ShoppingCartItem> ShoppingCartItems { get; set; } = new();
+        public List<ShoppingCartItem> ShoppingCartItems { get; set; } = null!;
 
         public ShoppingCart(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
+        public static ShoppingCart GetShoppingCart(IServiceProvider services)
+        {
+            ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
+            AppDbContext dbContext = services.GetService<AppDbContext>();
 
+            string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
+            session.SetString("CartId", cartId);
+
+            return new ShoppingCart(dbContext) {  ShoppingCartId = cartId };
+        }
 
         public async Task AddItemToCart(Movie movie)
         {

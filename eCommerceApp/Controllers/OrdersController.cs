@@ -16,7 +16,7 @@ namespace eCommerceApp.Controllers
             _shoppingCart = shoppingCart;
         }
 
-        public IActionResult Index()
+        public IActionResult ShoppingCart()
         {
             var items = _shoppingCart.GetShoppingCartItems();
             _shoppingCart.ShoppingCartItems = items;
@@ -28,6 +28,30 @@ namespace eCommerceApp.Controllers
             };
 
             return View(result);
+        }
+
+        public async Task<IActionResult> AddToShoppingCart(int id)
+        {
+            var item = await _moviesService.GetMovieByIdAsync(id);
+
+            if(item != null)
+            {
+                await _shoppingCart.AddItemToCart(item);
+            }
+
+            return RedirectToAction(nameof(ShoppingCart));
+        }
+
+        public async Task<IActionResult> RemoveFromShoppingCart(int id)
+        {
+            var item = await _moviesService.GetMovieByIdAsync(id);
+
+            if (item != null)
+            {
+                await _shoppingCart.RemoveItemFromCart(item);
+            }
+
+            return RedirectToAction(nameof(ShoppingCart));
         }
     }
 }
