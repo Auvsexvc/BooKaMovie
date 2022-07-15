@@ -72,6 +72,8 @@ namespace eCommerceApp.Controllers
                 Name = movieDetails.Name,
                 Description = movieDetails.Description,
                 Price = movieDetails.Price,
+                StartDate = movieDetails.StartDate,
+                EndDate = movieDetails.EndDate,
                 ImageURL = movieDetails.ImageURL,
                 MovieCategory = movieDetails.MovieCategory,
                 CinemaId = movieDetails.CinemaId,
@@ -109,6 +111,21 @@ namespace eCommerceApp.Controllers
             await _moviesService.UpdateMovieAsync(movieVM);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Filter(string searchString)
+        {
+            var movies = await _moviesService.GetAllAsync(m => m.Cinema);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var filteredResult = movies.Where(m => m.Name.Contains(searchString) || m.Description.Contains(searchString)).ToList();
+                ViewBag.SearchString = searchString;
+
+                return View("Index", filteredResult);
+            }
+
+            return View("Index", movies);
         }
     }
 }

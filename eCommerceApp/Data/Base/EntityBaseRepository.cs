@@ -28,7 +28,7 @@ namespace eCommerceApp.Data.Base
             }
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync() =>
+        public virtual async Task<IEnumerable<T>> GetAllAsync() =>
             await _dbContext.Set<T>().ToListAsync();
 
         public async Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties)
