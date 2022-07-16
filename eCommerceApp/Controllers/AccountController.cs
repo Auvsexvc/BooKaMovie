@@ -1,4 +1,5 @@
 ﻿using eCommerceApp.Data;
+using eCommerceApp.Data.Static;
 using eCommerceApp.Models;
 using eCommerceApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -50,6 +51,50 @@ namespace eCommerceApp.Controllers
             TempData["Error"] = "Wrong credential. Please try again.";
 
             return View(loginVM);
+        }
+
+        public IActionResult Register() => View(new RegisterVM());
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterAsync(RegisterVM registerVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(registerVM);
+            }
+
+            var user = await _userManager.FindByEmailAsync(registerVM.EmailAddress);
+
+            if (user != null)
+            {
+                TempData["Error"] = $"{registerVM.EmailAddress} is already in use.";
+
+                return View(registerVM);
+            }
+
+            var newUser = new AppUser()
+            {
+                FullName = registerVM.FullName,
+                Email = registerVM.EmailAddress,
+                UserName = registerVM.EmailAddress
+            };
+
+            var newUserResult = await _userManager.CreateAsync(newUser, registerVM.Password);
+
+            if (newUserResult.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+            }
+
+            return View("RegisterCompleted");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction("Index", "Movies");
         }
     }
 }
