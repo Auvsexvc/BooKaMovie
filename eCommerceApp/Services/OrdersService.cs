@@ -16,7 +16,7 @@ namespace eCommerceApp.Services
 
         public async Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string userId, string userRole)
         {
-            var orders = await _dbContext.Orders.Include(o => o.Items).ThenInclude(o => o.Movie).Include(o=>o.User).ToListAsync();
+            var orders = await _dbContext.Orders.Include(o => o.Items).ThenInclude(o => o.Movie).Include(o => o.User).ToListAsync();
             if (userRole != "Admin")
             {
                 orders = orders.Where(o => o.UserId == userId).ToList();

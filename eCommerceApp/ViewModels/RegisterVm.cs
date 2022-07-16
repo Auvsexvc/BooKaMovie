@@ -17,9 +17,9 @@ namespace eCommerceApp.ViewModels
         public string Password { get; set; } = string.Empty;
 
         [Display(Name = "Confirm password")]
-        [Required(ErrorMessage ="Confirm password")]
+        [Required(ErrorMessage = "Confirm password")]
         [DataType(DataType.Password)]
-        [Compare("Password",ErrorMessage ="Password fields do not match")]
+        [Compare("Password", ErrorMessage = "Password fields do not match")]
         public string ConfirmPassword { get; set; } = string.Empty;
     }
 }

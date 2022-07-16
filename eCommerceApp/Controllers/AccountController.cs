@@ -22,6 +22,7 @@ namespace eCommerceApp.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
         [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Users()
         {

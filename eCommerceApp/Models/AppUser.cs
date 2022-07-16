@@ -5,7 +5,7 @@ namespace eCommerceApp.Models
 {
     public class AppUser : IdentityUser
     {
-        [Display(Name ="FullName")]
+        [Display(Name = "FullName")]
         public string FullName { get; set; } = string.Empty;
     }
 }
