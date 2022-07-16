@@ -60,6 +60,7 @@ namespace eCommerceApp.Controllers
         public async Task<IActionResult> Delete(int id) => await GetCinemaAsync(id);
 
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var cinema = await _cinemasService.GetByIdAsync(id);
