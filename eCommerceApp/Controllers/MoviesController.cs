@@ -115,7 +115,7 @@ namespace eCommerceApp.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                var filteredResult = movies.Where(m => m.Name.Contains(searchString) || m.Description.Contains(searchString)).ToList();
+                var filteredResult = movies.Where(m => m.Name.ToLower().Contains(searchString.ToLower()) || m.Description.ToLower().Contains(searchString.ToLower())).ToList();
                 ViewBag.SearchString = searchString;
 
                 return View("Index", filteredResult);

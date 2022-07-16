@@ -72,6 +72,7 @@ namespace eCommerceApp.Data.Cart
             var items = await _dbContext.ShoppingCartItems.Where(c => c.ShoppingCartId == ShoppingCartId).ToListAsync();
             _dbContext.ShoppingCartItems.RemoveRange(items);
             await _dbContext.SaveChangesAsync();
+            ShoppingCartItems = new();
         }
 
         public List<ShoppingCartItem> GetShoppingCartItems() =>
