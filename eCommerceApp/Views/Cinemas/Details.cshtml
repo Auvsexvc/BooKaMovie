@@ -33,7 +33,14 @@
                     {
                         <a class="btn btn-warning float-end" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
                     }
-                    <a class="btn btn-outline-secondary" asp-action="Index">Back</a>
+                    @if (!string.IsNullOrWhiteSpace(ViewData["Reffer"]!.ToString()))
+                    {
+                        <a class="btn btn-outline-secondary" href="@ViewData["Reffer"]">Back</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-secondary" asp-action="Index">Back</a>
+                    }
                 </div>
             </div>
         </div>

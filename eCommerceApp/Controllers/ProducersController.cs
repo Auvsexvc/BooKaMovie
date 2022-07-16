@@ -22,6 +22,7 @@ namespace eCommerceApp.Controllers
         public IActionResult Create() => View();
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FullName,ProfilePictureURL,Bio")] Producer producer)
         {
             if (!ModelState.IsValid)
@@ -39,6 +40,7 @@ namespace eCommerceApp.Controllers
         public async Task<IActionResult> Edit(int id) => await GetProducerAsync(id);
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Producer producer)
         {
             if (!ModelState.IsValid)
@@ -58,6 +60,7 @@ namespace eCommerceApp.Controllers
         public async Task<IActionResult> Delete(int id) => await GetProducerAsync(id);
 
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var producer = await _producersService.GetByIdAsync(id);
@@ -73,6 +76,11 @@ namespace eCommerceApp.Controllers
 
         private async Task<IActionResult> GetProducerAsync(int id)
         {
+            if (Request.Headers["Referer"] != string.Empty)
+            {
+                ViewData["Reffer"] = Request.Headers["Referer"].ToString();
+            }
+
             var producerDetails = await _producersService.GetByIdAsync(id);
 
             if (producerDetails == null)

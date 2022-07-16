@@ -51,6 +51,20 @@
                                     <span class="badge bg-primary text-white">UPCOMING</span>
                                 }
                             </p>
+                            <p>
+                                <b>Top @Math.Min(item.ActorsMovies.Where(am => am.MovieId == item.Id).Count(),3) actors:</b>
+                            </p>
+                            <div class="column d-flex flex-wrap">
+
+                                @foreach (var actor in item.ActorsMovies.Where(am => am.MovieId == item.Id).Take(3))
+                                {
+                                    <div class="text-center" style="padding:2px;">
+                                        <a class="text-center d-grid" asp-controller="Actors" asp-action="Details" asp-route-id="@actor.ActorId">
+                                            <img class="border-info rounded-circle avatar w-100" src="@actor.Actor.ProfilePictureURL" style="max-width: 50px; " />
+                                        </a>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12">

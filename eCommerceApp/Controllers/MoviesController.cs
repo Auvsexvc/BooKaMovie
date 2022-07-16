@@ -4,6 +4,7 @@ using eCommerceApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq.Expressions;
 
 namespace eCommerceApp.Controllers
 {
@@ -18,10 +19,18 @@ namespace eCommerceApp.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index() => View(await _moviesService.GetAllAsync(m => m.Cinema));
+        public async Task<IActionResult> Index()
+        {
+            var data = await _moviesService.GetAllAsync();
+
+            return View(data);
+        }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int id) => View(await _moviesService.GetMovieByIdAsync(id));
+        public async Task<IActionResult> Details(int id)
+        {
+            return View(await _moviesService.GetMovieByIdAsync(id));
+        }
 
         public async Task<IActionResult> Create()
         {
@@ -35,6 +44,7 @@ namespace eCommerceApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(NewMovieVM newMovieVM)
         {
             if (!ModelState.IsValid)
@@ -86,6 +96,7 @@ namespace eCommerceApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, NewMovieVM movieVM)
         {
             if (id != movieVM.Id)
@@ -115,7 +126,7 @@ namespace eCommerceApp.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                var filteredResult = movies.Where(m => m.Name.ToLower().Contains(searchString.ToLower()) || m.Description.ToLower().Contains(searchString.ToLower())).ToList();
+                var filteredResult = movies.Where(m => m.Name.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) || m.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)).ToList();
                 ViewBag.SearchString = searchString;
 
                 return View("Index", filteredResult);

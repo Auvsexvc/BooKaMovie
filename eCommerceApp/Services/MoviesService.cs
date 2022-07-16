@@ -16,6 +16,19 @@ namespace eCommerceApp.Services
             _dbContext = dbContext;
         }
 
+        public override async Task<IEnumerable<Movie>> GetAllAsync()
+        {
+            var data = await _dbContext
+                .Movies
+                .Include(m => m.Cinema)
+                .Include(m => m.Producer)
+                .Include(m => m.ActorsMovies)
+                .ThenInclude(am => am.Actor)
+                .ToListAsync();
+
+            return data;
+        }
+
         public async Task AddNewMovieAsync(NewMovieVM newMovie)
         {
             var newMov = new Movie()

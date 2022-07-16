@@ -69,9 +69,7 @@
                 <div class="col-md-12">
                     <div class="card-footer ">
                         <p class="card-text">
-                            <a class="btn btn-outline-primary float-left" asp-action="Index">
-                                Back to list
-                            </a>
+                            <a class="btn btn-outline-secondary" asp-action="Index">Back</a>
                             <a class="btn btn-success text-white float-end @((DateTime.Now > Model.EndDate) ? "disabled" : "")"
                                asp-controller="Orders"
                                asp-action="AddToShoppingCart"

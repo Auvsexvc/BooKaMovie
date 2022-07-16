@@ -22,6 +22,7 @@ namespace eCommerceApp.Controllers
         public IActionResult Create() => View();
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Logo,Description")] Cinema cinema)
         {
             if (!ModelState.IsValid)
@@ -39,6 +40,7 @@ namespace eCommerceApp.Controllers
         public async Task<IActionResult> Edit(int id) => await GetCinemaAsync(id);
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Cinema cinema)
         {
             if (!ModelState.IsValid)
@@ -73,6 +75,11 @@ namespace eCommerceApp.Controllers
 
         private async Task<IActionResult> GetCinemaAsync(int id)
         {
+            if (Request.Headers["Referer"] != string.Empty)
+            {
+                ViewData["Reffer"] = Request.Headers["Referer"].ToString();
+            }
+
             var cinemaDetails = await _cinemasService.GetByIdAsync(id);
 
             if (cinemaDetails == null)

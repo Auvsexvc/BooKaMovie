@@ -33,8 +33,9 @@ namespace eCommerceApp.Controllers
         [AllowAnonymous]
         public IActionResult Login() => View(new LoginVM());
 
-        [AllowAnonymous]
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
             if (!ModelState.IsValid)
@@ -68,8 +69,9 @@ namespace eCommerceApp.Controllers
         [AllowAnonymous]
         public IActionResult Register() => View(new RegisterVM());
 
-        [AllowAnonymous]
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAsync(RegisterVM registerVM)
         {
             if (!ModelState.IsValid)
@@ -104,6 +106,7 @@ namespace eCommerceApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -111,7 +114,7 @@ namespace eCommerceApp.Controllers
             return RedirectToAction("Index", "Movies");
         }
 
-        public IActionResult AccessDenied(string ReturnUrl)
+        public IActionResult AccessDenied()
         {
             return View();
         }

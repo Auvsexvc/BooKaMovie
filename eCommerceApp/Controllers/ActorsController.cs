@@ -22,6 +22,7 @@ namespace eCommerceApp.Controllers
         public IActionResult Create() => View();
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FullName,ProfilePictureURL,Bio")] Actor actor)
         {
             if (!ModelState.IsValid)
@@ -39,6 +40,7 @@ namespace eCommerceApp.Controllers
         public async Task<IActionResult> Edit(int id) => await GetDetailAsync(id);
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Actor actor)
         {
             if (!ModelState.IsValid)
@@ -73,6 +75,11 @@ namespace eCommerceApp.Controllers
 
         private async Task<IActionResult> GetDetailAsync(int id)
         {
+            if (Request.Headers["Referer"] != string.Empty)
+            {
+                ViewData["Reffer"] = Request.Headers["Referer"].ToString();
+            }
+
             var actorDetails = await _actorsService.GetByIdAsync(id);
 
             if (actorDetails == null)
