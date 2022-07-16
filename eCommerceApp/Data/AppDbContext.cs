@@ -1,9 +1,10 @@
 ﻿using eCommerceApp.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceApp.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<AppUser>
     {
         public DbSet<Actor> Actors => Set<Actor>();
         public DbSet<Movie> Movies => Set<Movie>();
@@ -18,18 +19,18 @@ namespace eCommerceApp.Data
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            modelBuilder.Entity<ActorMovie>().HasKey(am => new
+            builder.Entity<ActorMovie>().HasKey(am => new
             {
                 am.ActorId,
                 am.MovieId
             });
 
-            modelBuilder.Entity<ActorMovie>().HasOne(m => m.Movie).WithMany(am => am.ActorsMovies).HasForeignKey(m => m.MovieId);
-            modelBuilder.Entity<ActorMovie>().HasOne(a => a.Actor).WithMany(am => am.ActorsMovies).HasForeignKey(a => a.ActorId);
+            builder.Entity<ActorMovie>().HasOne(m => m.Movie).WithMany(am => am.ActorsMovies).HasForeignKey(m => m.MovieId);
+            builder.Entity<ActorMovie>().HasOne(a => a.Actor).WithMany(am => am.ActorsMovies).HasForeignKey(a => a.ActorId);
 
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(builder);
         }
     }
 }
