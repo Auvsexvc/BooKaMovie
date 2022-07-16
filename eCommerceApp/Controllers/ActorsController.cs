@@ -1,9 +1,12 @@
-﻿using eCommerceApp.Interfaces;
+﻿using eCommerceApp.Data.Static;
+using eCommerceApp.Interfaces;
 using eCommerceApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerceApp.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class ActorsController : Controller
     {
         private readonly IActorsService _actorsService;
@@ -13,6 +16,7 @@ namespace eCommerceApp.Controllers
             _actorsService = actorsService;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index() => View(await _actorsService.GetAllAsync());
 
         public IActionResult Create() => View();
@@ -29,6 +33,7 @@ namespace eCommerceApp.Controllers
             return RedirectToAction("Index");
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id) => await GetDetailAsync(id);
 
         public async Task<IActionResult> Edit(int id) => await GetDetailAsync(id);

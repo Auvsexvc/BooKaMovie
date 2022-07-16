@@ -1,9 +1,12 @@
-﻿using eCommerceApp.Interfaces;
+﻿using eCommerceApp.Data.Static;
+using eCommerceApp.Interfaces;
 using eCommerceApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerceApp.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class ProducersController : Controller
     {
         private readonly IProducersService _producersService;
@@ -13,6 +16,7 @@ namespace eCommerceApp.Controllers
             _producersService = producersService;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index() => View(await _producersService.GetAllAsync());
 
         public IActionResult Create() => View();
@@ -29,6 +33,7 @@ namespace eCommerceApp.Controllers
             return RedirectToAction("Index");
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id) => await GetProducerAsync(id);
 
         public async Task<IActionResult> Edit(int id) => await GetProducerAsync(id);

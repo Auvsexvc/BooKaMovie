@@ -2,11 +2,14 @@
 using eCommerceApp.Data.Static;
 using eCommerceApp.Models;
 using eCommerceApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceApp.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly AppDbContext _dbContext;
@@ -19,9 +22,18 @@ namespace eCommerceApp.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<IActionResult> Users()
+        {
+            var users = await _dbContext.Users.ToListAsync();
 
+            return View(users);
+        }
+
+        [AllowAnonymous]
         public IActionResult Login() => View(new LoginVM());
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
@@ -53,8 +65,10 @@ namespace eCommerceApp.Controllers
             return View(loginVM);
         }
 
+        [AllowAnonymous]
         public IActionResult Register() => View(new RegisterVM());
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> RegisterAsync(RegisterVM registerVM)
         {
@@ -95,6 +109,11 @@ namespace eCommerceApp.Controllers
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Movies");
+        }
+
+        public IActionResult AccessDenied(string ReturnUrl)
+        {
+            return View();
         }
     }
 }

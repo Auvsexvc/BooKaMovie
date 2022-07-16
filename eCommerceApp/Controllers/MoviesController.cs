@@ -1,10 +1,13 @@
-﻿using eCommerceApp.Interfaces;
+﻿using eCommerceApp.Data.Static;
+using eCommerceApp.Interfaces;
 using eCommerceApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace eCommerceApp.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class MoviesController : Controller
     {
         private readonly IMoviesService _moviesService;
@@ -14,8 +17,10 @@ namespace eCommerceApp.Controllers
             _moviesService = moviesService;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index() => View(await _moviesService.GetAllAsync(m => m.Cinema));
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id) => View(await _moviesService.GetMovieByIdAsync(id));
 
         public async Task<IActionResult> Create()
@@ -103,6 +108,7 @@ namespace eCommerceApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Filter(string searchString)
         {
             var movies = await _moviesService.GetAllAsync(m => m.Cinema);

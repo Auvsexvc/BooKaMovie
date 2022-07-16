@@ -1,9 +1,12 @@
-﻿using eCommerceApp.Interfaces;
+﻿using eCommerceApp.Data.Static;
+using eCommerceApp.Interfaces;
 using eCommerceApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerceApp.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class CinemasController : Controller
     {
         private readonly ICinemasService _cinemasService;
@@ -13,6 +16,7 @@ namespace eCommerceApp.Controllers
             _cinemasService = cinemasService;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index() => View(await _cinemasService.GetAllAsync());
 
         public IActionResult Create() => View();
@@ -29,6 +33,7 @@ namespace eCommerceApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id) => await GetCinemaAsync(id);
 
         public async Task<IActionResult> Edit(int id) => await GetCinemaAsync(id);

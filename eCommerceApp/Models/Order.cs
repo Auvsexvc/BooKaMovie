@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eCommerceApp.Models
 {
@@ -9,6 +10,9 @@ namespace eCommerceApp.Models
 
         public string Email { get; set; } = string.Empty;
         public string UserId { get; set; } = string.Empty;
+
+        [ForeignKey("UserId")]
+        public AppUser User { get; set; } = null!;
 
         public List<OrderItem> Items { get; set; } = null!;
     }

@@ -14,9 +14,15 @@ namespace eCommerceApp.Services
             _dbContext = dbContext;
         }
 
-        public async Task<List<Order>> GetOrdersByUserIdAsync(string userId)
+        public async Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string userId, string userRole)
         {
-            return await _dbContext.Orders.Include(o => o.Items).ThenInclude(o => o.Movie).Where(o => o.UserId == userId).ToListAsync();
+            var orders = await _dbContext.Orders.Include(o => o.Items).ThenInclude(o => o.Movie).Include(o=>o.User).ToListAsync();
+            if (userRole != "Admin")
+            {
+                orders = orders.Where(o => o.UserId == userId).ToList();
+            }
+
+            return orders;
         }
 
         public async Task StoreOrderAsync(List<ShoppingCartItem> shoppingCartItems, string userId, string userEmailAddress)
